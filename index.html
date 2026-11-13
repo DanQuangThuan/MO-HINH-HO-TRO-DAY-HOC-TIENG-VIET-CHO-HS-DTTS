@@ -3,131 +3,550 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hệ thống hỗ trợ dạy học Tiếng Việt</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hệ thống quản lý học sinh</title>
 <style>
-* {box-sizing:border-box;margin:0;padding:0}
+:root {
+  --blue:#174b78;
+  --blue2:#25699d;
+  --bg:#f3f6fa;
+  --border:#e4eaf1;
+  --text:#26374b;
+  --muted:#718096;
+}
+* {box-sizing:border-box}
 body {
-  font-family:Arial,sans-serif;
-  background:#f3f6fa;
-  color:#263449;
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,sans-serif;font-size:14px;
 }
 header {
-  background:#153d68;
-  color:white;
-  padding:22px 5%;
+  background:var(--blue);color:white;
+  padding:20px 28px;
 }
-header h1 {font-size:22px;margin-bottom:7px}
-header p {font-size:13px;color:#d6e4f2}
-.layout {display:flex;min-height:85vh}
+header h1 {font-size:20px;margin:0 0 7px}
+header p {margin:0;color:#d8e6f4;font-size:13px}
+.layout {display:flex;min-height:calc(100vh - 82px)}
 nav {
-  width:230px;background:white;padding:20px 12px;
-  border-right:1px solid #e4e9ef;
+  width:225px;background:white;padding:18px 12px;
+  border-right:1px solid var(--border);
 }
 nav button {
-  display:block;width:100%;text-align:left;
-  padding:13px;border:0;background:white;
-  border-radius:7px;margin-bottom:7px;
-  color:#34445a;font-size:14px;cursor:pointer;
+  width:100%;padding:13px 12px;border:0;
+  background:white;text-align:left;border-radius:7px;
+  margin-bottom:5px;cursor:pointer;color:var(--text);
 }
 nav button.active,nav button:hover {
-  background:#e8f1fb;color:#17548a;
+  background:#e9f2fb;color:var(--blue);font-weight:bold;
 }
-main {flex:1;padding:28px;min-width:0}
-h2 {font-size:23px;margin-bottom:8px}
-.subtitle {color:#758398;font-size:14px;margin-bottom:25px}
+main {flex:1;min-width:0;padding:25px}
+h2 {font-size:23px;margin:0 0 7px}
+.subtitle {color:var(--muted);margin:0 0 22px}
 .cards {
   display:grid;grid-template-columns:repeat(4,1fr);
-  gap:15px;margin-bottom:25px;
+  gap:13px;margin-bottom:20px;
 }
-.card {
-  background:white;padding:20px;border-radius:10px;
-  border:1px solid #e7ebf0;
+.card,.panel {
+  background:white;border:1px solid var(--border);
+  border-radius:10px;padding:19px;
 }
-.card p {color:#78879a;font-size:13px;margin-bottom:13px}
-.card strong {font-size:27px;color:#174d7c}
-.panel {
-  background:white;padding:22px;border-radius:10px;
-  border:1px solid #e7ebf0;margin-bottom:18px;
+.card p {color:var(--muted);margin:0 0 12px}
+.card strong {font-size:27px;color:var(--blue)}
+.panel {margin-bottom:17px}
+.panel h3 {font-size:16px;margin:0 0 16px}
+.toolbar {
+  display:flex;gap:9px;flex-wrap:wrap;
+  align-items:center;margin-bottom:16px;
 }
-.panel h3 {margin-bottom:15px;font-size:17px}
-.empty {color:#8491a2;padding:30px 5px;text-align:center}
-footer {text-align:center;color:#8995a4;padding:20px;font-size:12px}
-@media(max-width:750px) {
-  .layout {display:block}
-  nav {width:100%;display:flex;overflow-x:auto;padding:10px}
-  nav button {min-width:125px;width:auto;margin:0 4px}
-  main {padding:17px}
+input,select {
+  padding:10px 12px;border:1px solid #d7e0e9;
+  border-radius:6px;background:white;color:var(--text);
+  min-width:0;font-size:14px;
+}
+input:focus,select:focus {
+  outline:2px solid #b7d6f2;border-color:var(--blue2);
+}
+.toolbar input {flex:1;min-width:180px}
+.btn {
+  border:0;border-radius:6px;padding:10px 14px;
+  cursor:pointer;background:var(--blue2);color:white;
+  font-weight:600;font-size:13px;
+}
+.btn:hover {opacity:.88}
+.btn.secondary {background:#eaf0f6;color:var(--blue)}
+.btn.danger {background:#fceaea;color:#b43d3d}
+.btn.small {padding:7px 10px}
+table {width:100%;border-collapse:collapse;min-width:680px}
+th,td {
+  padding:12px 10px;text-align:left;
+  border-bottom:1px solid var(--border);
+}
+th {background:#f6f8fb;color:#52647a;font-size:12px}
+td {font-size:13px}
+.table-wrap {overflow-x:auto}
+.empty {text-align:center;padding:30px;color:var(--muted)}
+.tag {
+  display:inline-block;padding:5px 8px;border-radius:20px;
+  background:#e8f3ec;color:#287247;font-size:11px;
+}
+.tag.disability {background:#fff1df;color:#9a5a12}
+.field-grid {
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+}
+.field {display:flex;flex-direction:column;gap:7px}
+.field label {font-weight:600;font-size:13px}
+.field input,.field select {width:100%}
+.field.full {grid-column:1/-1}
+.modal {
+  position:fixed;inset:0;background:#142b4666;
+  display:none;align-items:center;justify-content:center;
+  padding:15px;z-index:5;
+}
+.modal.show {display:flex}
+.modal-box {
+  background:white;border-radius:12px;padding:24px;
+  width:min(600px,100%);max-height:90vh;overflow:auto;
+}
+.modal-box h3 {margin:0 0 20px;font-size:19px}
+.modal-actions {
+  display:flex;justify-content:flex-end;gap:9px;
+  margin-top:20px;
+}
+.notice {color:var(--muted);font-size:12px;line-height:1.6}
+.hidden {display:none!important}
+@media(max-width:850px) {
   .cards {grid-template-columns:repeat(2,1fr)}
+  nav {width:180px}
+  main {padding:17px}
 }
-@media(max-width:380px) {
-  .cards {grid-template-columns:1fr}
+@media(max-width:600px) {
+  .layout {display:block}
+  nav {width:100%;display:flex;overflow-x:auto;padding:8px}
+  nav button {min-width:130px;width:auto}
+  main {padding:14px}
+  .field-grid {grid-template-columns:1fr}
+  .field.full {grid-column:auto}
+  header {padding:17px}
 }
 </style>
 </head>
 <body>
+
 <header>
   <h1>HỆ THỐNG HỖ TRỢ DẠY HỌC TIẾNG VIỆT</h1>
-  <p>Dành cho học sinh dân tộc thiểu số</p>
+  <p>Quản lý hồ sơ học sinh dân tộc thiểu số</p>
 </header>
 
 <div class="layout">
 <nav>
-  <button class="active" onclick="showPage('overview',this)">▦ Tổng quan</button>
-  <button onclick="showPage('students',this)">♙ Hồ sơ học sinh</button>
-  <button onclick="showPage('classes',this)">▤ Quản lý lớp học</button>
-  <button onclick="showPage('assessment',this)">✓ Đánh giá năng lực</button>
-  <button onclick="showPage('progress',this)">↗ Theo dõi tiến bộ</button>
-  <button onclick="showPage('reports',this)">▥ Thống kê báo cáo</button>
+  <button class="active" data-page="overview">▦ Tổng quan</button>
+  <button data-page="students">♙ Hồ sơ học sinh</button>
+  <button data-page="classes">▤ Quản lý lớp học</button>
 </nav>
 
-<main id="content">
-  <h2>Tổng quan hệ thống</h2>
-  <p class="subtitle">Không gian quản lý và hỗ trợ đánh giá học sinh</p>
-
-  <div class="cards">
-    <div class="card"><p>Tổng số học sinh</p><strong>0</strong></div>
-    <div class="card"><p>Số lớp học</p><strong>0</strong></div>
-    <div class="card"><p>Học sinh khuyết tật</p><strong>0</strong></div>
-    <div class="card"><p>Khối lớp</p><strong>5</strong></div>
-  </div>
-
-  <div class="panel">
-    <h3>Thông tin hệ thống</h3>
-    <p>Quản lý hồ sơ học sinh từ lớp 1 đến lớp 5.</p>
-    <p style="margin-top:12px">Theo dõi và đánh giá các kỹ năng Tiếng Việt: Nghe, Nói, Đọc, Viết.</p>
-  </div>
-
-  <div class="panel">
-    <h3>Hoạt động gần đây</h3>
-    <div class="empty">Chưa có dữ liệu hoạt động.</div>
-  </div>
-</main>
+<main id="content"></main>
 </div>
 
-<footer>
-  Hệ thống hỗ trợ dạy học Tiếng Việt cho học sinh dân tộc thiểu số
-</footer>
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h3 id="modalTitle">Thông tin</h3>
+    <form id="studentForm">
+      <input type="hidden" id="studentId">
+      <div class="field-grid">
+        <div class="field full">
+          <label>Họ và tên *</label>
+          <input id="fullName" required maxlength="100"
+            placeholder="Nhập họ và tên học sinh">
+        </div>
+        <div class="field">
+          <label>Giới tính *</label>
+          <select id="gender" required>
+            <option value="">Chọn giới tính</option>
+            <option>Nam</option><option>Nữ</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Ngày sinh *</label>
+          <input type="date" id="birthDate" required>
+        </div>
+        <div class="field full">
+          <label>Dân tộc *</label>
+          <select id="ethnicity" required></select>
+        </div>
+        <div class="field">
+          <label>Khối lớp *</label>
+          <select id="grade" required></select>
+        </div>
+        <div class="field">
+          <label>Lớp học *</label>
+          <select id="classId" required></select>
+        </div>
+        <div class="field full">
+          <label>Tình trạng học sinh *</label>
+          <select id="status" required>
+            <option value="normal">Học sinh bình thường</option>
+            <option value="disability">Học sinh khuyết tật</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn secondary"
+          onclick="closeModal()">Hủy</button>
+        <button class="btn" type="submit">Lưu hồ sơ</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <script>
-function showPage(page,button) {
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  button.classList.add('active');
+const ethnicities = [
+"Kinh","Tày","Thái","Mường","Khmer","Hoa","Nùng","H'Mông",
+"Dao","Gia Rai","Ê Đê","Ba Na","Sán Chay","Chăm","Xơ Đăng",
+"Sán Dìu","Hrê","Ra Glai","Mnông","Thổ","Stiêng","Khơ Mú",
+"Bru-Vân Kiều","Cơ Tu","Giáy","Tà Ôi","Mạ","Giẻ Triêng","Co",
+"Chơ Ro","Xinh Mun","Hà Nhì","Chu Ru","Lào","La Chí","Kháng",
+"Phù Lá","La Hủ","La Ha","Pà Thẻn","Lự","Ngái","Chứt","Lô Lô",
+"Mảng","Cờ Lao","Bố Y","Cống","Si La","Pu Péo","Rơ Măm","Brâu","Ơ Đu"
+];
 
-  const pages = {
-    overview:['Tổng quan hệ thống','Không gian quản lý và hỗ trợ đánh giá học sinh.'],
-    students:['Hồ sơ học sinh','Quản lý thông tin học sinh trong toàn trường.'],
-    classes:['Quản lý lớp học','Quản lý khối lớp từ lớp 1 đến lớp 5.'],
-    assessment:['Đánh giá năng lực','Đánh giá bốn kỹ năng Nghe, Nói, Đọc, Viết.'],
-    progress:['Theo dõi tiến bộ','Theo dõi sự phát triển năng lực Tiếng Việt.'],
-    reports:['Thống kê báo cáo','Tổng hợp dữ liệu và kết quả đánh giá.']
-  };
+const KEY = "tiengviet_school_v1";
+let data = {classes:[],students:[]};
+let currentPage = "overview";
+let searchText = "";
+let filterGrade = "";
+let filterClass = "";
+let filterStatus = "";
 
-  const p=pages[page];
-  document.getElementById('content').innerHTML =
-    '<h2>'+p[0]+'</h2><p class="subtitle">'+p[1]+'</p>'+
-    '<div class="panel"><div class="empty">Chức năng đang được xây dựng. Vui lòng quay lại sau.</div></div>';
+try {
+  const saved = JSON.parse(localStorage.getItem(KEY));
+  if(saved && Array.isArray(saved.classes) &&
+     Array.isArray(saved.students)) data = saved;
+} catch(e) {}
+
+function saveData() {
+  localStorage.setItem(KEY,JSON.stringify(data));
 }
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+function id() {
+  return "HS" + Date.now().toString(36).toUpperCase()
+    + Math.random().toString(36).slice(2,6).toUpperCase();
+}
+
+function className(c) {
+  return escapeHTML(c.name);
+}
+
+function gradeClasses(g) {
+  return data.classes.filter(c=>String(c.grade)===String(g));
+}
+
+function render() {
+  document.querySelectorAll("nav button").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===currentPage);
+  });
+  if(currentPage==="overview") renderOverview();
+  if(currentPage==="students") renderStudents();
+  if(currentPage==="classes") renderClasses();
+}
+
+function renderOverview() {
+  const normal = data.students.filter(s=>s.status==="normal").length;
+  const disabled = data.students.length-normal;
+  document.getElementById("content").innerHTML=`
+    <h2>Tổng quan hệ thống</h2>
+    <p class="subtitle">Thông tin quản lý học sinh toàn trường</p>
+    <div class="cards">
+      <div class="card"><p>Tổng số học sinh</p><strong>${data.students.length}</strong></div>
+      <div class="card"><p>Số lớp học</p><strong>${data.classes.length}</strong></div>
+      <div class="card"><p>Học sinh bình thường</p><strong>${normal}</strong></div>
+      <div class="card"><p>Học sinh khuyết tật</p><strong>${disabled}</strong></div>
+    </div>
+    <div class="panel">
+      <h3>Quy mô học sinh theo khối</h3>
+      ${[1,2,3,4,5].map(g=>`
+        <p style="margin:13px 0">Khối ${g}:
+        <b>${data.students.filter(s=>s.grade==g).length}</b> học sinh
+        · ${gradeClasses(g).length} lớp</p>`).join("")}
+    </div>
+    <div class="panel">
+      <h3>Thông tin hệ thống</h3>
+      <p>Đã có ${ethnicities.length} dân tộc trong danh mục lựa chọn.</p>
+      <p class="notice" style="margin-top:12px">
+      Phiên bản thử nghiệm lưu dữ liệu trên trình duyệt hiện tại.
+      Hãy sao lưu dữ liệu thường xuyên.</p>
+    </div>`;
+}
+
+function renderClasses() {
+  document.getElementById("content").innerHTML=`
+    <h2>Quản lý lớp học</h2>
+    <p class="subtitle">Tổ chức lớp học theo 5 khối tiểu học</p>
+    <div class="panel">
+      <h3>Thêm lớp học</h3>
+      <form id="classForm" class="toolbar">
+        <select id="newGrade" required>
+          <option value="">Chọn khối</option>
+          ${[1,2,3,4,5].map(g=>`<option value="${g}">Khối ${g}</option>`).join("")}
+        </select>
+        <input id="newClassName" placeholder="Tên lớp, ví dụ: 1A" required maxlength="20">
+        <button class="btn">+ Thêm lớp</button>
+      </form>
+    </div>
+    ${[1,2,3,4,5].map(g=>`
+      <div class="panel">
+        <h3>Khối ${g} (${gradeClasses(g).length} lớp)</h3>
+        ${gradeClasses(g).length ? `
+          <div class="table-wrap"><table>
+            <thead><tr><th>Tên lớp</th><th>Số học sinh</th><th>Thao tác</th></tr></thead>
+            <tbody>${gradeClasses(g).map(c=>`
+              <tr>
+                <td><b>${className(c)}</b></td>
+                <td>${data.students.filter(s=>s.classId===c.id).length}</td>
+                <td><button class="btn danger small" onclick="deleteClass('${c.id}')">Xóa</button></td>
+              </tr>`).join("")}
+            </tbody>
+          </table></div>` : `<div class="empty">Chưa có lớp học.</div>`}
+      </div>`).join("")}`;
+  document.getElementById("classForm").onsubmit=addClass;
+}
+
+function addClass(e) {
+  e.preventDefault();
+  const grade = Number(document.getElementById("newGrade").value);
+  const name = document.getElementById("newClassName").value.trim();
+  if(!grade || !name) return;
+  if(data.classes.some(c=>c.grade===grade && c.name.toLowerCase()===name.toLowerCase())) {
+    alert("Lớp này đã tồn tại trong khối.");return;
+  }
+  data.classes.push({id:id(),grade,name});
+  saveData();renderClasses();
+}
+
+function deleteClass(classId) {
+  if(data.students.some(s=>s.classId===classId)) {
+    alert("Lớp đang có học sinh. Hãy chuyển học sinh sang lớp khác trước khi xóa.");
+    return;
+  }
+  if(!confirm("Bạn có chắc chắn muốn xóa lớp này?")) return;
+  data.classes=data.classes.filter(c=>c.id!==classId);
+  saveData();renderClasses();
+}
+
+function renderStudents() {
+  const filtered=data.students.filter(s=>{
+    const cls=data.classes.find(c=>c.id===s.classId);
+    return (
+      (s.name.toLowerCase().includes(searchText.toLowerCase())) &&
+      (!filterGrade || String(s.grade)===filterGrade) &&
+      (!filterClass || s.classId===filterClass) &&
+      (!filterStatus || s.status===filterStatus) &&
+      cls
+    );
+  });
+  document.getElementById("content").innerHTML=`
+    <h2>Hồ sơ học sinh</h2>
+    <p class="subtitle">Quản lý thông tin cá nhân và phân loại học sinh</p>
+    <div class="toolbar">
+      <button class="btn" onclick="openModal()">+ Thêm học sinh</button>
+      <button class="btn secondary" onclick="exportCSV()">Xuất Excel (CSV)</button>
+      <button class="btn secondary" onclick="backup()">Sao lưu dữ liệu</button>
+      <button class="btn secondary" onclick="document.getElementById('restoreFile').click()">Khôi phục</button>
+      <input type="file" id="restoreFile" accept=".json,application/json" class="hidden">
+    </div>
+    <div class="panel">
+      <div class="toolbar">
+        <input id="search" placeholder="Tìm theo họ và tên..." value="${escapeHTML(searchText)}">
+        <select id="filterGrade">
+          <option value="">Tất cả khối</option>
+          ${[1,2,3,4,5].map(g=>`<option value="${g}" ${filterGrade==g?"selected":""}>Khối ${g}</option>`).join("")}
+        </select>
+        <select id="filterClass"><option value="">Tất cả lớp</option>
+          ${data.classes.filter(c=>!filterGrade||c.grade==filterGrade).map(c=>
+          `<option value="${c.id}" ${filterClass===c.id?"selected":""}>${className(c)}</option>`).join("")}
+        </select>
+        <select id="filterStatus">
+          <option value="">Tất cả tình trạng</option>
+          <option value="normal" ${filterStatus==="normal"?"selected":""}>Bình thường</option>
+          <option value="disability" ${filterStatus==="disability"?"selected":""}>Khuyết tật</option>
+        </select>
+      </div>
+      <p class="notice">Tìm thấy ${filtered.length} / ${data.students.length} học sinh</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Mã hồ sơ</th><th>Họ và tên</th><th>Giới tính</th>
+            <th>Ngày sinh</th><th>Dân tộc</th><th>Lớp</th>
+            <th>Tình trạng</th><th>Thao tác</th>
+          </tr></thead>
+          <tbody>
+          ${filtered.length?filtered.map(s=>{
+            const c=data.classes.find(x=>x.id===s.classId);
+            return `<tr>
+              <td>${escapeHTML(s.id)}</td>
+              <td><b>${escapeHTML(s.name)}</b></td>
+              <td>${escapeHTML(s.gender)}</td>
+              <td>${escapeHTML(s.birthDate)}</td>
+              <td>${escapeHTML(s.ethnicity)}</td>
+              <td>${className(c)}</td>
+              <td><span class="tag ${s.status==="disability"?"disability":""}">
+                ${s.status==="disability"?"Khuyết tật":"Bình thường"}</span></td>
+              <td>
+                <button class="btn secondary small" onclick="editStudent('${s.id}')">Sửa</button>
+                <button class="btn danger small" onclick="deleteStudent('${s.id}')">Xóa</button>
+              </td>
+            </tr>`;
+          }).join(""):`<tr><td colspan="8" class="empty">Chưa có hồ sơ phù hợp.</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  document.getElementById("search").oninput=e=>{
+    searchText=e.target.value;renderStudents();
+    const el=document.getElementById("search");
+    el.focus();el.setSelectionRange(searchText.length,searchText.length);
+  };
+  document.getElementById("filterGrade").onchange=e=>{
+    filterGrade=e.target.value;filterClass="";renderStudents();
+  };
+  document.getElementById("filterClass").onchange=e=>{
+    filterClass=e.target.value;renderStudents();
+  };
+  document.getElementById("filterStatus").onchange=e=>{
+    filterStatus=e.target.value;renderStudents();
+  };
+  document.getElementById("restoreFile").onchange=restore;
+}
+
+function fillForm(s={}) {
+  document.getElementById("ethnicity").innerHTML=
+    `<option value="">Chọn dân tộc</option>`+
+    ethnicities.map(x=>`<option ${s.ethnicity===x?"selected":""}>${escapeHTML(x)}</option>`).join("");
+  document.getElementById("grade").innerHTML=
+    `<option value="">Chọn khối</option>`+
+    [1,2,3,4,5].map(g=>`<option value="${g}" ${s.grade==g?"selected":""}>Khối ${g}</option>`).join("");
+  document.getElementById("grade").onchange=()=>fillClasses();
+  fillClasses(s.classId);
+}
+
+function fillClasses(selected="") {
+  const grade=document.getElementById("grade").value;
+  const list=gradeClasses(grade);
+  document.getElementById("classId").innerHTML=
+    `<option value="">Chọn lớp</option>`+
+    list.map(c=>`<option value="${c.id}" ${selected===c.id?"selected":""}>${className(c)}</option>`).join("");
+}
+
+function openModal(s=null) {
+  if(!data.classes.length) {
+    alert("Ông chủ hãy tạo lớp học trước khi thêm học sinh.");return;
+  }
+  document.getElementById("studentForm").reset();
+  document.getElementById("studentId").value=s?s.id:"";
+  document.getElementById("fullName").value=s?s.name:"";
+  document.getElementById("gender").value=s?s.gender:"";
+  document.getElementById("birthDate").value=s?s.birthDate:"";
+  document.getElementById("status").value=s?s.status:"normal";
+  fillForm(s||{});
+  document.getElementById("modalTitle").textContent=s?"Chỉnh sửa hồ sơ":"Thêm hồ sơ học sinh";
+  document.getElementById("modal").classList.add("show");
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("show");
+}
+
+document.getElementById("studentForm").onsubmit=e=>{
+  e.preventDefault();
+  const sid=document.getElementById("studentId").value;
+  const grade=Number(document.getElementById("grade").value);
+  const classId=document.getElementById("classId").value;
+  const cls=data.classes.find(c=>c.id===classId);
+  if(!cls||cls.grade!==grade) {
+    alert("Vui lòng chọn lớp phù hợp với khối.");return;
+  }
+  const student={
+    id:sid||id(),
+    name:document.getElementById("fullName").value.trim().replace(/\s+/g," "),
+    gender:document.getElementById("gender").value,
+    birthDate:document.getElementById("birthDate").value,
+    ethnicity:document.getElementById("ethnicity").value,
+    grade,classId,
+    status:document.getElementById("status").value,
+    createdAt:sid?(data.students.find(s=>s.id===sid)?.createdAt||new Date().toISOString()):new Date().toISOString()
+  };
+  if(!student.name || student.birthDate>new Date().toISOString().slice(0,10)) {
+    alert("Kiểm tra lại họ tên và ngày sinh.");return;
+  }
+  if(sid) {
+    data.students=data.students.map(s=>s.id===sid?student:s);
+  } else {
+    data.students.push(student);
+  }
+  saveData();closeModal();renderStudents();
+};
+
+function editStudent(studentId) {
+  const s=data.students.find(x=>x.id===studentId);
+  if(s)openModal(s);
+}
+
+function deleteStudent(studentId) {
+  if(!confirm("Bạn có chắc chắn muốn xóa hồ sơ học sinh này?"))return;
+  data.students=data.students.filter(s=>s.id!==studentId);
+  saveData();renderStudents();
+}
+
+function downloadFile(content,type,name) {
+  const blob=new Blob([content],{type});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download=name;a.click();
+  URL.revokeObjectURL(url);
+}
+
+function backup() {
+  downloadFile(JSON.stringify(data,null,2),
+    "application/json","sao-luu-ho-so-hoc-sinh.json");
+}
+
+function restore(e) {
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try {
+      const d=JSON.parse(reader.result);
+      if(!Array.isArray(d.classes)||!Array.isArray(d.students))
+        throw Error();
+      if(!confirm("Khôi phục sẽ thay thế dữ liệu hiện tại. Bạn có chắc chắn?"))return;
+      data=d;saveData();renderStudents();
+      alert("Đã khôi phục dữ liệu.");
+    } catch(err) {alert("Tệp sao lưu không hợp lệ.");}
+  };
+  reader.readAsText(file);
+  e.target.value="";
+}
+
+function exportCSV() {
+  const rows=[["Mã hồ sơ","Họ và tên","Giới tính","Ngày sinh","Dân tộc","Khối","Lớp","Tình trạng"]];
+  data.students.forEach(s=>{
+    const c=data.classes.find(x=>x.id===s.classId);
+    rows.push([s.id,s.name,s.gender,s.birthDate,s.ethnicity,s.grade,c?.name||"",
+      s.status==="disability"?"Học sinh khuyết tật":"Học sinh bình thường"]);
+  });
+  const csv="\uFEFF"+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n");
+  downloadFile(csv,"text/csv;charset=utf-8","danh-sach-hoc-sinh.csv");
+}
+
+document.querySelectorAll("nav button").forEach(b=>{
+  b.onclick=()=>{currentPage=b.dataset.page;render();};
+});
+render();
 </script>
 </body>
 </html>
