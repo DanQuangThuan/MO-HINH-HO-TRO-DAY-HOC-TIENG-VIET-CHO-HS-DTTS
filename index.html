@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hệ thống hỗ trợ dạy học Tiếng Việt</title>
+<style>
+* {box-sizing:border-box;margin:0;padding:0}
+body {
+  font-family:Arial,sans-serif;
+  background:#f3f6fa;
+  color:#263449;
+}
+header {
+  background:#153d68;
+  color:white;
+  padding:22px 5%;
+}
+header h1 {font-size:22px;margin-bottom:7px}
+header p {font-size:13px;color:#d6e4f2}
+.layout {display:flex;min-height:85vh}
+nav {
+  width:230px;background:white;padding:20px 12px;
+  border-right:1px solid #e4e9ef;
+}
+nav button {
+  display:block;width:100%;text-align:left;
+  padding:13px;border:0;background:white;
+  border-radius:7px;margin-bottom:7px;
+  color:#34445a;font-size:14px;cursor:pointer;
+}
+nav button.active,nav button:hover {
+  background:#e8f1fb;color:#17548a;
+}
+main {flex:1;padding:28px;min-width:0}
+h2 {font-size:23px;margin-bottom:8px}
+.subtitle {color:#758398;font-size:14px;margin-bottom:25px}
+.cards {
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:15px;margin-bottom:25px;
+}
+.card {
+  background:white;padding:20px;border-radius:10px;
+  border:1px solid #e7ebf0;
+}
+.card p {color:#78879a;font-size:13px;margin-bottom:13px}
+.card strong {font-size:27px;color:#174d7c}
+.panel {
+  background:white;padding:22px;border-radius:10px;
+  border:1px solid #e7ebf0;margin-bottom:18px;
+}
+.panel h3 {margin-bottom:15px;font-size:17px}
+.empty {color:#8491a2;padding:30px 5px;text-align:center}
+footer {text-align:center;color:#8995a4;padding:20px;font-size:12px}
+@media(max-width:750px) {
+  .layout {display:block}
+  nav {width:100%;display:flex;overflow-x:auto;padding:10px}
+  nav button {min-width:125px;width:auto;margin:0 4px}
+  main {padding:17px}
+  .cards {grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:380px) {
+  .cards {grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>HỆ THỐNG HỖ TRỢ DẠY HỌC TIẾNG VIỆT</h1>
+  <p>Dành cho học sinh dân tộc thiểu số</p>
+</header>
+
+<div class="layout">
+<nav>
+  <button class="active" onclick="showPage('overview',this)">▦ Tổng quan</button>
+  <button onclick="showPage('students',this)">♙ Hồ sơ học sinh</button>
+  <button onclick="showPage('classes',this)">▤ Quản lý lớp học</button>
+  <button onclick="showPage('assessment',this)">✓ Đánh giá năng lực</button>
+  <button onclick="showPage('progress',this)">↗ Theo dõi tiến bộ</button>
+  <button onclick="showPage('reports',this)">▥ Thống kê báo cáo</button>
+</nav>
+
+<main id="content">
+  <h2>Tổng quan hệ thống</h2>
+  <p class="subtitle">Không gian quản lý và hỗ trợ đánh giá học sinh</p>
+
+  <div class="cards">
+    <div class="card"><p>Tổng số học sinh</p><strong>0</strong></div>
+    <div class="card"><p>Số lớp học</p><strong>0</strong></div>
+    <div class="card"><p>Học sinh khuyết tật</p><strong>0</strong></div>
+    <div class="card"><p>Khối lớp</p><strong>5</strong></div>
+  </div>
+
+  <div class="panel">
+    <h3>Thông tin hệ thống</h3>
+    <p>Quản lý hồ sơ học sinh từ lớp 1 đến lớp 5.</p>
+    <p style="margin-top:12px">Theo dõi và đánh giá các kỹ năng Tiếng Việt: Nghe, Nói, Đọc, Viết.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Hoạt động gần đây</h3>
+    <div class="empty">Chưa có dữ liệu hoạt động.</div>
+  </div>
+</main>
+</div>
+
+<footer>
+  Hệ thống hỗ trợ dạy học Tiếng Việt cho học sinh dân tộc thiểu số
+</footer>
+
+<script>
+function showPage(page,button) {
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  button.classList.add('active');
+
+  const pages = {
+    overview:['Tổng quan hệ thống','Không gian quản lý và hỗ trợ đánh giá học sinh.'],
+    students:['Hồ sơ học sinh','Quản lý thông tin học sinh trong toàn trường.'],
+    classes:['Quản lý lớp học','Quản lý khối lớp từ lớp 1 đến lớp 5.'],
+    assessment:['Đánh giá năng lực','Đánh giá bốn kỹ năng Nghe, Nói, Đọc, Viết.'],
+    progress:['Theo dõi tiến bộ','Theo dõi sự phát triển năng lực Tiếng Việt.'],
+    reports:['Thống kê báo cáo','Tổng hợp dữ liệu và kết quả đánh giá.']
+  };
+
+  const p=pages[page];
+  document.getElementById('content').innerHTML =
+    '<h2>'+p[0]+'</h2><p class="subtitle">'+p[1]+'</p>'+
+    '<div class="panel"><div class="empty">Chức năng đang được xây dựng. Vui lòng quay lại sau.</div></div>';
+}
+</script>
+</body>
+</html>
